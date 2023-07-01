@@ -18,6 +18,7 @@ public class ArmyController : MonoBehaviour
         {
             GameObject newUnit = Instantiate(army.unit, transform.position, Quaternion.identity);
             newUnit.GetComponent<UnitController>().SetArmyGroup(this);
+            newUnit.GetComponent<UnitMotor>().SetArmyGroup(this);
             CombatGameManager.instance.AddNewUnit(newUnit); //add new unit to a global list 
         }
     }
