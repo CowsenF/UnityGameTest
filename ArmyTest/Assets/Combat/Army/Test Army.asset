@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Test Army
   m_EditorClassIdentifier: 
   unit: {fileID: 6234930642139571309, guid: 14e542c385ab6354f9d5471b86b66c92, type: 3}
-  numberOfUnits: 4
+  numberOfUnits: 5
   radius: 3

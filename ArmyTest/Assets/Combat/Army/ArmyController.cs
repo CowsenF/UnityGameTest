@@ -5,8 +5,8 @@ using UnityEngine;
 public class ArmyController : MonoBehaviour
 {
     public ArmyScriptableObject army;
+    [SerializeField] private List<GameObject> units = new();
 
-    [SerializeField] private Vector3 desiredPosition;
 
     private void Awake()
     {
@@ -20,10 +20,15 @@ public class ArmyController : MonoBehaviour
             newUnit.GetComponent<UnitController>().SetArmyGroup(this);
             newUnit.GetComponent<UnitMotor>().SetArmyGroup(this);
             CombatGameManager.instance.AddNewUnit(newUnit); //add new unit to a global list 
+            units.Add(newUnit);
         }
     }
     //Spawn army
 
-    //set desiredPosition
+    public void SetNewPosition(Vector3 newPosition)
+    {
+        this.transform.position = newPosition;
+        units.ForEach(unit => { unit.GetComponent<UnitMotor>().UnitMover(); });
+    }
 
 }

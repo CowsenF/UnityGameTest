@@ -9,6 +9,8 @@ public class UnitMotor : MonoBehaviour
     private NavMeshAgent agent;
     private ArmyController armyGroup;
 
+    private Vector3 armyPosOffset = Vector3.zero;
+
     [SerializeField] private float minInterval = 3f;
     [SerializeField] private float maxInterval = 40f;
 
@@ -20,6 +22,7 @@ public class UnitMotor : MonoBehaviour
     private void Start()
     {
         agent.updateRotation = false;
+        SetNewOffsetIdleMover();
         UnitMover();
         StartCoroutine(RandomMovement());
     }
@@ -29,13 +32,15 @@ public class UnitMotor : MonoBehaviour
         this.armyGroup = newArmy;
     }
 
-    private void UnitMover()
+    private void SetNewOffsetIdleMover()
     {
-
         Vector2 randomPoint = Random.insideUnitCircle;
-        Vector3 RandomPoint = new(randomPoint.x * armyGroup.army.radius, 0f, randomPoint.y * armyGroup.army.radius);
+        armyPosOffset = new(randomPoint.x * armyGroup.army.radius, 0f, randomPoint.y * armyGroup.army.radius);
+    }
 
-        target = armyGroup.transform.position + RandomPoint;
+    public void UnitMover()
+    {
+        target = armyGroup.transform.position + armyPosOffset;
         agent.SetDestination(target);
     }
 
@@ -59,6 +64,7 @@ public class UnitMotor : MonoBehaviour
             float waitTime = Random.Range(minInterval, maxInterval);
             yield return new WaitForSeconds(waitTime);
 
+            SetNewOffsetIdleMover();
             UnitMover();
         }
     }
